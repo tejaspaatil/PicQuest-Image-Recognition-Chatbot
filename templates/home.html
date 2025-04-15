@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PicQuest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Product+Sans&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Product Sans', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      position: relative;
+    }
+
+    video.bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .logo-text {
+      position: absolute;
+      top: 20px;
+      left: 50px;
+      font-size: 42px;
+      font-weight: bold;
+      color: #ffffff;
+      z-index: 1;
+    }
+
+    .center-text {
+      text-align: center;
+      font-size: 72px;
+      color: white;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+
+    .button-container {
+      text-align: center;
+      z-index: 1;
+    }
+
+    a.start-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 250px;
+      padding: 15px;
+      color: white;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 40px;
+      background-color: black;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    a.start-button:hover {
+      background-color: #333;
+    }
+
+    a.start-button img {
+      margin-left: 10px;
+      width: 14px;
+      height: 14px;
+    }
+
+    .start-now {
+      font-size: 18px;
+      color: white;
+      margin-top: 10px;
+    }
+
+    .start-now a {
+      color: #00aaff;
+      text-decoration: none;
+    }
+
+    .start-now a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="{{ url_for('static', filename='background.mp4') }}" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <h1 class="logo-text">PicQuest</h1>
+  <div class="center-text">Image Recognition Chatbot</div>
+
+  <div class="button-container">
+    <a href="{{ url_for('vision_chat') }}" class="start-button">
+      Start Now
+      <img src="{{ url_for('static', filename='arrow.png') }}" alt="Arrow" />
+    </a>
+  </div>
+
+
+
+</body>
+</html>

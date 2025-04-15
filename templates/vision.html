@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini Vision Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="logo-text">
+        <h2>PicQuest</h2>
+    </div>
+
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='logo_background.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="chat-container">
+
+        <!-- <div class="chat-box">
+            {% if request.method == 'POST' %}
+                <div class="chat-message user">
+                    {% if prompt %}
+                        <p>{{ prompt }}</p>
+                    {% endif %}
+                    {% if request.files.get('image') %}
+                        <img src="data:image/png;base64,{{ image_data }}" alt="Uploaded Image">
+                    {% endif %}
+                </div>
+
+                <div class="chat-message bot">
+                    <p>{{ response }}</p>
+                </div>
+            {% endif %}
+        </div> -->
+
+        <div class="chat-box">
+            {% for chat in chat_history %}
+                <div class="chat-message user">
+                    {% if chat.prompt %}
+                        <p>{{ chat.prompt }}</p>
+                    {% endif %}
+                    {% if chat.image %}
+                        <img src="data:image/png;base64,{{ chat.image }}" alt="Uploaded Image">
+                    {% endif %}
+                </div>
+                <div class="chat-message bot">
+                    <p>{{ chat.response }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        
+            <form class="chat-input" method="POST" enctype="multipart/form-data">
+                <div class="chat-input-bar">
+                    <textarea id="prompt" name="prompt" placeholder="Ask something..." rows="1"></textarea>
+                    <div class="chat-buttons">
+                        <button type="button" onclick="startDictation()"><i class="fa-solid fa-microphone"></i></button>
+                        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+
+                <!-- <input type="file" name="image" accept="image/*" required> -->
+                <label for="file-upload" class="file-upload"><i class="fa-solid fa-image"></i></label>
+                <input type="file" id="file-upload" name="image" accept="image/*" />
+                
+                
+                  
+            </form>
+
+        
+        <!-- <div class="chat-footer">
+            <a href="/text">⬅ Back to Text Chatbot</a>
+        </div> -->
+        
+    </div>
+
+    <script>
+        function startDictation() {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = "en-US";
+
+                recognition.start();
+
+                recognition.onresult = function(e) {
+                    document.getElementById('prompt').value = e.results[0][0].transcript;
+                    recognition.stop();
+                };
+
+                recognition.onerror = function(e) {
+                    recognition.stop();
+                };
+            } else {
+                alert("Your browser does not support speech recognition.");
+            }
+        }
+    </script>
+</body>
+</html>
